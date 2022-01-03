@@ -6,7 +6,7 @@ import { useAuth } from '../../hooks/auth';
 import { path } from '../../routes/RoutePaths';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PAINEL } from '../../config/appRoutes';
-import AuthMockConsumer from '../../hooks/authMock';
+import AuthMockConsumer, { useAuthedMock } from '../../hooks/authMock';
 
 interface ILoginFormData {
   username: string;
@@ -20,18 +20,21 @@ const LoginSchema = Yup.object().shape({
 
 const Login: React.FC = () => {
   const { login: signIn } = useAuth();
-  const { login } = AuthMockConsumer()
+  const { login } = useAuthedMock();
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm({
+ /* const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(LoginSchema)
   });
+*/
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = useCallback(
     async (data: ILoginFormData) => {
       try {
-        await login().then(() => {
-          navigate(PAINEL);
-        });
+        console.log(data);
+        await login()
+        navigate('/painel');
+
         /*await signIn({
           username: 'admin@ru.unifesspa.edu.br',
           password: '654321',
@@ -63,21 +66,22 @@ const Login: React.FC = () => {
                   <form onSubmit={handleSubmit(onSubmit)} className="user">
                     <div className="form-group">
                       <input
-                        {...register("username")}
+                        {...register("username", {required:true})}
                         type="text"
                         className="form-control form-control-user"
                         id="username"
                         aria-describedby="usernameHelp"
                         placeholder="Usuário" />
+                        {errors.username && <span>This field is required</span>}
                     </div>
                     <div className="form-group">
                       <input
-                        {...register("password")}
+                        {...register("password", {required:true})}
                         type="password"
-
                         className="form-control form-control-user"
                         id="password"
                         placeholder="Senha" />
+                        {errors.password && <span>This field is required</span>}
                     </div>
                     <div className="form-group">
                       <div className="custom-control custom-checkbox small">

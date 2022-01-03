@@ -2,8 +2,8 @@ import React, { createContext, useContext } from 'react';
 
 interface AuthMockContextData {
   authed: boolean;
-  login(): Promise<void>;
-  logout(): Promise<void>;
+  login(): void;
+  logout(): void;
 }
 
 const AuthMockContext = createContext<AuthMockContextData>({} as AuthMockContextData);
@@ -13,23 +13,17 @@ function useAuthMock() {
 
   return {
     authed,
-    login() {
-      return new Promise<void>((res) => {
-        setAuthed(true);
-        res();
-      });
+     login() {
+      setAuthed(true);
     },
-    logout() {
-      return new Promise<void>((res) => {
-        setAuthed(false);
-        res();
-      });
+     logout() {
+      setAuthed(false);
     }
   };
 }
 
 
-export const AuthMockProvider:React.FC = ({ children }) => {
+export const AuthMockProvider: React.FC = ({ children }) => {
   const auth = useAuthMock();
 
   return (

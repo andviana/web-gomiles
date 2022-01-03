@@ -7,8 +7,8 @@ interface IProgressBarGroup {
 const ProgressBarGroup:React.FC<IProgressBarGroup> = ({items})=> {
   return (
     <>
-    {items && items.map((props, key) => (
-      <ProgressBar {...props} />
+    {items && items.map((props, index) => (
+      <ProgressBar {...props} key={index}/>
     ) )}
 
     </>

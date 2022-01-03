@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
       <div className='container my-auto'>
         <div className='copyright text-center my-auto'>
           <span>
-            Copyright &copy; GoMiles 2021 - Developed with <i className='fas fa-heart'></i> for Laiana
+            Copyright &copy; GoMiles 2021 - Developed with <i className='fas fa-heart text-danger'></i> an passion for Laiana
           </span>
         </div>
       </div>
